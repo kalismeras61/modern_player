@@ -24,3 +24,5 @@ export 'src/modern_player_options.dart'
         DefaultSelectorCustom,
         DefaultSelectorLabel,
         DefaultSelectorOff;
+export 'package:flutter_vlc_player/flutter_vlc_player.dart'
+    show VlcPlayerController;

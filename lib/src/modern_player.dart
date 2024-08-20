@@ -20,6 +20,7 @@ class ModernPlayer extends StatefulWidget {
       {required this.video,
       required this.subtitles,
       required this.audioTracks,
+      this.onControllerInitialized,
       this.defaultSelectionOptions,
       this.options,
       this.controlsOptions,
@@ -37,6 +38,8 @@ class ModernPlayer extends StatefulWidget {
 
   /// If you wish to add audio from [file] or [network], you can use this [audioTracks].
   final List<ModernPlayerAudioTrackOptions> audioTracks;
+
+  final Function(VlcPlayerController controller)? onControllerInitialized;
 
   /// Default selection options for subtitles and audio tracks.
   final ModernPlayerDefaultSelectionOptions? defaultSelectionOptions;
@@ -60,6 +63,7 @@ class ModernPlayer extends StatefulWidget {
       {required ModernPlayerVideo video,
       List<ModernPlayerSubtitleOptions>? subtitles,
       List<ModernPlayerAudioTrackOptions>? audioTracks,
+      Function(VlcPlayerController controller)? onControllerInitialized,
       ModernPlayerDefaultSelectionOptions? defaultSelectionOptions,
       ModernPlayerOptions? options,
       ModernPlayerControlsOptions? controlsOptions,
@@ -70,6 +74,7 @@ class ModernPlayer extends StatefulWidget {
       video: video,
       subtitles: subtitles ?? [],
       audioTracks: audioTracks ?? [],
+      onControllerInitialized: onControllerInitialized,
       options: options,
       controlsOptions: controlsOptions,
       defaultSelectionOptions: defaultSelectionOptions,
@@ -195,6 +200,10 @@ class _ModernPlayerState extends State<ModernPlayer> {
 
     _playerController.addOnInitListener(_onInitialize);
     _playerController.addListener(_checkVideoLoaded);
+
+    if (widget.onControllerInitialized != null) {
+      widget.onControllerInitialized!(_playerController);
+    }
 
     setState(() {
       canDisplayVideo = true;
