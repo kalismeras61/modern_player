@@ -222,10 +222,12 @@ class _ModernPlayerControlsState extends State<ModernPlayerControls> {
 
   void _startHideTimer() {
     _hideTimer?.cancel();
+
     _hideTimer = Timer(
         widget.controlsOptions.autoHideTime ?? const Duration(seconds: 5), () {
       setState(() {
         _hideStuff = true;
+        widget.controlsOptions.isControlsVisible?.call(_hideStuff);
       });
     });
   }
@@ -236,6 +238,7 @@ class _ModernPlayerControlsState extends State<ModernPlayerControls> {
     }
     setState(() {
       _hideStuff = !_hideStuff;
+      widget.controlsOptions.isControlsVisible?.call(_hideStuff);
     });
   }
 

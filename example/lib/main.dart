@@ -31,10 +31,24 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  VlcPlayerController? _controller;
+  late ValueNotifier<bool> isFavoriteNotifier;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    isFavoriteNotifier = ValueNotifier<bool>(true);
+  }
+
   // Theme option for modern_player
   var themeOptions = ModernPlayerThemeOptions(
       backgroundColor: Colors.black,
       menuBackgroundColor: Colors.black,
+      backIcon: const Icon(
+        Icons.arrow_back_ios_rounded,
+        color: Colors.white,
+      ),
       loadingColor: Colors.blue,
       menuIcon: const Icon(
         Icons.settings,
@@ -56,25 +70,28 @@ class _MyHomePageState extends State<MyHomePage> {
       doubleTapToSeek: true,
       showMenu: true,
       showMute: false,
-      showBackbutton: false,
+      showBackbutton: true,
       enableVolumeSlider: true,
       enableBrightnessSlider: true,
       showBottomBar: true,
+      autoHideTime: const Duration(seconds: 5),
+      isControlsVisible: (v) {
+        print("Controls Visible: $v");
+      },
       customActionButtons: [
         ModernPlayerCustomActionButton(
           icon: const Icon(
             Icons.info_rounded,
             color: Colors.white,
           ),
-          onPressed: () {
-            // On Pressed
-          },
+          onPressed: () async {},
         ),
       ]);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
@@ -84,14 +101,47 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(
-              height: 250,
-              child: ModernPlayer.createPlayer(
-                defaultSelectionOptions: ModernPlayerDefaultSelectionOptions(
-                    defaultQualitySelectors: [DefaultSelectorLabel('360p')]),
-                video: ModernPlayerVideo.youtubeWithUrl(
-                    url:
-                        'https://www.youtube.com/watch?v=vEHeI_wBzu0&ab_channel=UntitledStudio',
-                    fetchQualities: true),
+              height: 300,
+              child: Stack(
+                children: [
+                  ModernPlayer.createPlayer(
+                    onControllerInitialized: (controller) {
+                      _controller = controller;
+                    },
+                    controlsOptions: controlsOptions,
+                    callbackOptions: ModernPlayerCallbackOptions(
+                      onBackPressed: () {
+                        // On Back Pressed
+                        print("Back Pressed");
+                      },
+                      onChangedAudio: (audio) {
+                        // On Audio Changed
+                        print("Audio Changed");
+                      },
+                    ),
+                    options: ModernPlayerOptions(
+                      allowScreenSleep: true,
+                    ),
+                    video: ModernPlayerVideo.multiple([
+                      ModernPlayerVideoData.youtubeWithUrl(
+                          label: "DEdede",
+                          url: "https://www.youtube.com/watch?v=alD3UHIBnY8"),
+                      ModernPlayerVideoData.youtubeWithUrl(
+                          label: "DEdede 2",
+                          url: "https://www.youtube.com/watch?v=alD3UHIBnY8"),
+                    ]),
+                  ),
+                  Positioned(
+                    left: 100,
+                    top: 100,
+                    child: IconButton(
+                      onPressed: () async {
+                        _controller?.value.videoTracksCount;
+                      },
+                      icon: const Icon(Icons.abc, color: Colors.white),
+                    ),
+                  ),
+                ],
               ),
             )
           ],

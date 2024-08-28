@@ -256,6 +256,9 @@ class ModernPlayerControlsOptions {
   /// With custom action button you can create your own button an get a callback on pressed, double tap, and long press.
   List<ModernPlayerCustomActionButton>? customActionButtons;
 
+  // listen controls hiding state
+  Function(bool)? isControlsVisible;
+
   ModernPlayerControlsOptions(
       {this.showControls = true,
       this.showMenu = true,
@@ -266,7 +269,8 @@ class ModernPlayerControlsOptions {
       this.enableBrightnessSlider = true,
       this.doubleTapToSeek = true,
       this.customActionButtons,
-      this.autoHideTime});
+      this.autoHideTime,
+      this.isControlsVisible});
 }
 
 /// Theme option for Modern Player
