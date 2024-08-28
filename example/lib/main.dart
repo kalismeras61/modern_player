@@ -33,6 +33,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   VlcPlayerController? _controller;
   late ValueNotifier<bool> isFavoriteNotifier;
+  Color? iconColor = Colors.black;
 
   @override
   void initState() {
@@ -64,32 +65,34 @@ class _MyHomePageState extends State<MyHomePage> {
           progressTextStyle: const TextStyle(
               fontWeight: FontWeight.w400, color: Colors.white, fontSize: 18)));
 
-  // Controls option for modern_player
-  var controlsOptions = ModernPlayerControlsOptions(
-      showControls: true,
-      doubleTapToSeek: true,
-      showMenu: true,
-      showMute: false,
-      showBackbutton: true,
-      enableVolumeSlider: true,
-      enableBrightnessSlider: true,
-      showBottomBar: true,
-      autoHideTime: const Duration(seconds: 5),
-      isControlsVisible: (v) {
-        print("Controls Visible: $v");
-      },
-      customActionButtons: [
-        ModernPlayerCustomActionButton(
-          icon: const Icon(
-            Icons.info_rounded,
-            color: Colors.white,
-          ),
-          onPressed: () async {},
-        ),
-      ]);
-
   @override
   Widget build(BuildContext context) {
+    // Controls option for modern_player
+    var controlsOptions = ModernPlayerControlsOptions(
+        showControls: true,
+        doubleTapToSeek: true,
+        showMenu: true,
+        showMute: false,
+        showBackbutton: true,
+        enableVolumeSlider: true,
+        enableBrightnessSlider: true,
+        showBottomBar: true,
+        autoHideTime: const Duration(seconds: 5),
+        isControlsVisible: (v) {},
+        customActionButtons: [
+          ModernPlayerCustomActionButton(
+            icon: Icon(
+              Icons.info_rounded,
+              color: iconColor,
+            ),
+            onPressed: () async {
+              setState(() {
+                iconColor =
+                    iconColor == Colors.black ? Colors.white : Colors.black;
+              });
+            },
+          ),
+        ]);
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(

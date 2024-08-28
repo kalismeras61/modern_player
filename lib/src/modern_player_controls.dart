@@ -104,6 +104,15 @@ class _ModernPlayerControlsState extends State<ModernPlayerControls> {
     super.initState();
   }
 
+  @override
+  void didUpdateWidget(covariant ModernPlayerControls oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.controlsOptions.customActionButtons !=
+        widget.controlsOptions.customActionButtons) {
+      _customActionButtons = widget.controlsOptions.customActionButtons ?? [];
+    }
+  }
+
   /// Add listners
   void _listen() async {
     if (!_isDisposed) {
