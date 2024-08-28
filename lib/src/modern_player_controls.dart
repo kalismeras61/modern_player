@@ -121,12 +121,15 @@ class _ModernPlayerControlsState extends State<ModernPlayerControls> {
             player.value.playingState == PlayingState.paused) {
           setState(() {
             _currentPos = player.value.position;
+
             _duration = player.value.duration;
+            widget.callbackOptions.onPositionChanged?.call(_currentPos);
           });
         }
       } else {
         _currentPos = player.value.position;
         _duration = player.value.duration;
+        widget.callbackOptions.onPositionChanged?.call(_currentPos);
       }
 
       if (player.value.playingState == PlayingState.playing &&

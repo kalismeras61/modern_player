@@ -113,6 +113,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                     controlsOptions: controlsOptions,
                     callbackOptions: ModernPlayerCallbackOptions(
+                      onPositionChanged: (position) {
+                        // On Position Changed
+                        print("Position Changed $position");
+                      },
                       onBackPressed: () {
                         // On Back Pressed
                         print("Back Pressed");

@@ -576,17 +576,21 @@ class ModernPlayerCallbackOptions {
   /// [onMutePressed] calls when user clicked mute button.
   Function? onMutePressed;
 
-  ModernPlayerCallbackOptions(
-      {this.onPlay,
-      this.onPause,
-      this.onSeek,
-      this.onSeekForward,
-      this.onSeekBackward,
-      this.onChangedQuality,
-      this.onChangedSubtitle,
-      this.onChangedAudio,
-      this.onChangedPlaybackSpeed,
-      this.onBackPressed,
-      this.onMenuPressed,
-      this.onMutePressed});
+  Function(Duration duration)? onPositionChanged;
+
+  ModernPlayerCallbackOptions({
+    this.onPlay,
+    this.onPause,
+    this.onSeek,
+    this.onSeekForward,
+    this.onSeekBackward,
+    this.onChangedQuality,
+    this.onChangedSubtitle,
+    this.onChangedAudio,
+    this.onChangedPlaybackSpeed,
+    this.onBackPressed,
+    this.onMenuPressed,
+    this.onMutePressed,
+    this.onPositionChanged,
+  });
 }
